@@ -8,16 +8,19 @@ import './random-planet.css';
 
 export default class RandomPlanet extends Component {
 
-  constructor(props) {
-    super(props);
-
+  componentDidMount() {
     this.updatePlanet();
+    this.interval = setInterval(this.updatePlanet, 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   swapiService = new SwapiService();
 
   state = {
-   planet: {},
+    planet: {},
     loading: true
   };
 
@@ -36,7 +39,7 @@ export default class RandomPlanet extends Component {
     });
   };
 
-  updatePlanet () {
+  updatePlanet = () => {
     const id = Math.floor(Math.random() * 25) + 2;
 
     this.swapiService
@@ -74,7 +77,7 @@ const PlanetVeiw = ({ planet }) => {
       <div className='col-auto planet-image'>
         <img
           src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
-          alt=""/>
+          alt="planet"/>
       </div>
       <div className='col-auto planet-info'>
         <h4>{name}</h4>

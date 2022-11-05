@@ -7,11 +7,18 @@ import RandomPlanet from '../random-planet';
 import PeplePage from "../people-page/people-page";
 import ErrorIndicator from '../error-indicator';
 import ErrorButton from "../error-button";
-import ItemList from "../item-list";
 import ItemDetails, { Record } from "../item-details";
 import Row from "../row";
 
 import SwapiService from "../../services/swapi-service";
+import {
+  PersonList,
+  PlanetList,
+  StarshipList,
+  PersonDetails,
+  PlanetDetails,
+  StarshipDetails
+} from "../sw-components";
 
 export default class App extends Component {
 
@@ -48,32 +55,32 @@ export default class App extends Component {
 
     const { getPerson, getStarship, getPersonImage, getStarshipImage } = this.swapiService;
 
-    const personDetails = (
-      <ItemDetails
-        itemId={ 11 }
-        getData={ getPerson }
-        getImageUrl={ getPersonImage }
-      >
-
-        <Record field="gender" label="Gender" />
-        <Record field="eyeColor" label="Eye Color" />
-
-      </ItemDetails>
-    );
-
-    const starshipDetails = (
-      <ItemDetails
-        itemId={ 5 }
-        getData={ getStarship }
-        getImageUrl={ getStarshipImage }
-        >
-
-        <Record field="model" label="Model" />
-        <Record field="length" label="Length" />
-        <Record field="costInCredits" label="Cost" />
-
-      </ItemDetails>
-    )
+    // const personDetails = (
+    //   <ItemDetails
+    //     itemId={ 11 }
+    //     getData={ getPerson }
+    //     getImageUrl={ getPersonImage }
+    //   >
+    //
+    //     <Record field="gender" label="Gender" />
+    //     <Record field="eyeColor" label="Eye Color" />
+    //
+    //   </ItemDetails>
+    // );
+    //
+    // const starshipDetails = (
+    //   <ItemDetails
+    //     itemId={ 5 }
+    //     getData={ getStarship }
+    //     getImageUrl={ getStarshipImage }
+    //     >
+    //
+    //     <Record field="model" label="Model" />
+    //     <Record field="length" label="Length" />
+    //     <Record field="costInCredits" label="Cost" />
+    //
+    //   </ItemDetails>
+    // )
 
     return (
       <div className='app container'>
@@ -91,15 +98,28 @@ export default class App extends Component {
 
         {/*<PeplePage />*/}
 
-        <ItemList
+        <PersonDetails itemId={ 5 } />
+        <PlanetDetails itemId={ 6 } />
+        <StarshipDetails itemId={ 9 } />
+
+        <PersonList
           onItemSelected={ this.onPersonSelected }
-          getData={ this.swapiService.getAllPeople }
           renderItems={ ({ name, gender, birthYear }) => `${name} (${gender}, ${birthYear})` }
         />
 
-        <Row left={ personDetails }
-             right={ starshipDetails }
+        <PlanetList
+          onItemSelected={ this.onPersonSelected }
+          renderItems={ ({ name }) => `${name}` }
         />
+
+        <StarshipList
+          onItemSelected={ this.onPersonSelected }
+          renderItems={ ({ name }) => `${name}` }
+        />
+
+        {/*<Row left={ personDetails }*/}
+        {/*     right={ starshipDetails }*/}
+        {/*/>*/}
 
       </div>
     )

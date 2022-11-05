@@ -37,6 +37,7 @@ export default class ItemDetails extends Component {
   };
 
   updateItem() {
+
     const { itemId, getData, getImageUrl } = this.props;
 
     if (!itemId) {
@@ -50,14 +51,13 @@ export default class ItemDetails extends Component {
           image: getImageUrl(item),
           loading: false
         });
-
       });
   };
 
   render() {
 
     if(!this.state.item) {
-      return <span>Select a person from a list</span>;
+      return <span>Select a item from a list</span>;
     }
 
     if (this.state.loading) {

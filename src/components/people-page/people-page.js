@@ -2,25 +2,11 @@ import React, { Component } from "react";
 
 import './people-page.css'
 import ItemList from "../item-list";
-import PersonDetails from "../person-details";
-import ErrorButton from "../error-button";
+import ItemDetails from "../item-details";
+import Row from "../row";
 import ErrorBoundry from "../error-boundry";
 
 import SwapiService from "../../services/swapi-service";
-
-const Row = ({ left, right }) => {
-  return (
-    <div className='people-page row'>
-      <div className='col-6'>
-        { left }
-      </div>
-      <div className='col-6'>
-        { right }
-        <ErrorButton />
-      </div>
-    </div>
-  )
-}
 
 export default class PeplePage extends Component {
 
@@ -49,7 +35,7 @@ export default class PeplePage extends Component {
     );
 
     const personDetails = (
-      <PersonDetails personId={ selectedPerson }/>
+      <ItemDetails itemId={ selectedPerson }/>
     )
 
     return (

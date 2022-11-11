@@ -20,6 +20,11 @@ import {
   StarshipDetails
 } from "../sw-components";
 
+import {
+  SwapiSericeProvider,
+  SwapiSericeConsumer
+} from "../swapi-service-context/swapi-service-context";
+
 export default class App extends Component {
 
   swapiService = new SwapiService();
@@ -83,7 +88,8 @@ export default class App extends Component {
     // )
 
     return (
-      <div className='app container'>
+      <SwapiSericeProvider value={ this.swapiService }>
+        <div className='app container'>
         <Header/>
 
         { planet }
@@ -104,17 +110,14 @@ export default class App extends Component {
 
         <PersonList
           onItemSelected={ this.onPersonSelected }
-          renderItems={ ({ name, gender, birthYear }) => `${name} (${gender}, ${birthYear})` }
         />
 
         <PlanetList
           onItemSelected={ this.onPersonSelected }
-          renderItems={ ({ name }) => `${name}` }
         />
 
         <StarshipList
           onItemSelected={ this.onPersonSelected }
-          renderItems={ ({ name }) => `${name}` }
         />
 
         {/*<Row left={ personDetails }*/}
@@ -122,6 +125,7 @@ export default class App extends Component {
         {/*/>*/}
 
       </div>
+      </SwapiSericeProvider>
     )
   }
 };

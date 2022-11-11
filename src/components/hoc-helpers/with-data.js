@@ -27,7 +27,6 @@ const withData = (View, getData) => {
       if (!data) {
         return <Spinner />
       }
-
       return (
         <ErrorBoundry>
           <View { ...this.props } data={ data } />

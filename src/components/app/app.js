@@ -11,6 +11,8 @@ import ItemDetails, { Record } from "../item-details";
 import Row from "../row";
 
 import SwapiService from "../../services/swapi-service";
+import DummySwapiService from "../../services/dummy-swapi-service";
+
 import {
   PersonList,
   PlanetList,
@@ -20,6 +22,7 @@ import {
   StarshipDetails
 } from "../sw-components";
 
+
 import {
   SwapiSericeProvider,
   SwapiSericeConsumer
@@ -27,7 +30,7 @@ import {
 
 export default class App extends Component {
 
-  swapiService = new SwapiService();
+  swapiService = new DummySwapiService;
 
   state = {
     showRandomPlanet: true,

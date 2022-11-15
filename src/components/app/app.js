@@ -1,47 +1,38 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 import './app.css';
 
+import ErrorBoundry from "../error-boundry";
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import PeplePage from "../people-page/people-page";
-import ErrorIndicator from '../error-indicator';
-import ErrorButton from "../error-button";
-import ItemDetails, { Record } from "../item-details";
-import Row from "../row";
+import {
+  PeoplePage,
+  PlanetPage,
+  StarshipsPage
+} from "../pages";
 
 import SwapiService from "../../services/swapi-service";
 import DummySwapiService from "../../services/dummy-swapi-service";
 
-import {
-  PersonList,
-  PlanetList,
-  StarshipList,
-  PersonDetails,
-  PlanetDetails,
-  StarshipDetails
-} from "../sw-components";
-
-
-import {
-  SwapiSericeProvider,
-  SwapiSericeConsumer
-} from "../swapi-service-context/swapi-service-context";
+import { SwapiSericeProvider } from "../swapi-service-context/";
 
 export default class App extends Component {
 
-  swapiService = new DummySwapiService;
-
   state = {
     showRandomPlanet: true,
+    swapiService: new DummySwapiService(),
     hasError: false
   }
 
-  // toggleRandomPlanet = () => {
-  //   this.setState({
-  //     showRandomPlanet: false
-  //   });
-  // }
+  onSericeChange = () => {
+    this.setState(({swapiService}) => {
+      const Service = swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
+
+      return {
+        swapiService: new Service()
+      }
+    });
+  }
 
   componentDidCatch(error, errorInfo) {
     this.setState({
@@ -51,84 +42,26 @@ export default class App extends Component {
 
   render() {
 
-    if (this.state.hasError) {
-      return (
-        <ErrorIndicator />
-      )
-    }
+    const {showRandomPlanet} = this.state;
 
-    const { showRandomPlanet } = this.state;
-
-    const planet = showRandomPlanet ? <RandomPlanet/> : null;
-
-    const { getPerson, getStarship, getPersonImage, getStarshipImage } = this.swapiService;
-
-    // const personDetails = (
-    //   <ItemDetails
-    //     itemId={ 11 }
-    //     getData={ getPerson }
-    //     getImageUrl={ getPersonImage }
-    //   >
-    //
-    //     <Record field="gender" label="Gender" />
-    //     <Record field="eyeColor" label="Eye Color" />
-    //
-    //   </ItemDetails>
-    // );
-    //
-    // const starshipDetails = (
-    //   <ItemDetails
-    //     itemId={ 5 }
-    //     getData={ getStarship }
-    //     getImageUrl={ getStarshipImage }
-    //     >
-    //
-    //     <Record field="model" label="Model" />
-    //     <Record field="length" label="Length" />
-    //     <Record field="costInCredits" label="Cost" />
-    //
-    //   </ItemDetails>
-    // )
+    const planet = showRandomPlanet ? <RandomPlanet /> : null;
 
     return (
-      <SwapiSericeProvider value={ this.swapiService }>
-        <div className='app container'>
-        <Header/>
+      <ErrorBoundry>
+        <SwapiSericeProvider value={this.state.swapiService}>
+          <div className='app container'>
 
-        { planet }
+            <Header onServiceChange={this.onSericeChange}/>
 
-        <button className='toggle-planet btn btn-warning btn-lg mx-2'
-                // onClick={ this.toggleRandomPlanet }
-        >
-          Toggle Random Planet
-        </button>
+            {planet}
 
-        <ErrorButton />
+            <PeoplePage />
+            <PlanetPage />
+            <StarshipsPage />
 
-        {/*<PeplePage />*/}
-
-        <PersonDetails itemId={ 5 } />
-        <PlanetDetails itemId={ 6 } />
-        <StarshipDetails itemId={ 9 } />
-
-        <PersonList
-          onItemSelected={ this.onPersonSelected }
-        />
-
-        <PlanetList
-          onItemSelected={ this.onPersonSelected }
-        />
-
-        <StarshipList
-          onItemSelected={ this.onPersonSelected }
-        />
-
-        {/*<Row left={ personDetails }*/}
-        {/*     right={ starshipDetails }*/}
-        {/*/>*/}
-
-      </div>
-      </SwapiSericeProvider>
+          </div>
+        </SwapiSericeProvider>
+      </ErrorBoundry>
     )
   }
 };

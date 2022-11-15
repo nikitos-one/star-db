@@ -2,7 +2,6 @@ import React from "react";
 
 import ItemDetails, {Record} from "../item-details";
 import { withSwapiService } from "../hoc-helpers";
-import {type} from "@testing-library/user-event/dist/type";
 
 const PersonDetails = (props) => {
 
@@ -21,4 +20,4 @@ const mapMethodsToProps = (swapiService) => {
   }
 };
 
-export default withSwapiService(PersonDetails, mapMethodsToProps);
+export default withSwapiService(mapMethodsToProps)(PersonDetails);

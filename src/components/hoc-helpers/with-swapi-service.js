@@ -1,8 +1,7 @@
 import React from "react";
 import { SwapiServiceConsumer } from "../swapi-service-context";
-import {type} from "@testing-library/user-event/dist/type";
 
-const WithSwapiService = (Wrapped, mapMethodsToProps) => {
+const WithSwapiService = (mapMethodsToProps) => (Wrapped) => {
 
   return (props) => {
     return (

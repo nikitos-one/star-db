@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 import './app.css';
 
@@ -11,6 +12,8 @@ import {
   StarshipsPage
 } from "../pages";
 
+import StarshipDetails from "../sw-components/starship-details";
+
 import SwapiService from "../../services/swapi-service";
 import DummySwapiService from "../../services/dummy-swapi-service";
 
@@ -20,7 +23,7 @@ export default class App extends Component {
 
   state = {
     showRandomPlanet: true,
-    swapiService: new DummySwapiService(),
+    swapiService: new SwapiService(),
     hasError: false
   }
 
@@ -49,17 +52,22 @@ export default class App extends Component {
     return (
       <ErrorBoundry>
         <SwapiSericeProvider value={this.state.swapiService}>
-          <div className='app container'>
+          <Router>
+            <div className='app container'>
 
-            <Header onServiceChange={this.onSericeChange}/>
+              <Header onServiceChange={this.onSericeChange}/>
 
-            {planet}
+              {planet}
+              <Routes>
+                <Route index element={<h2>Welcome to StarDB</h2>} />
+                <Route path="people" element={<PeoplePage />} />
+                <Route path="planets" element={<PlanetPage />} />
+                <Route path="starships" element={<StarshipsPage />} />
+                <Route path="starships/:itemId" element={<StarshipDetails />} />
+              </Routes>
 
-            <PeoplePage />
-            <PlanetPage />
-            <StarshipsPage />
-
-          </div>
+            </div>
+          </Router>
         </SwapiSericeProvider>
       </ErrorBoundry>
     )

@@ -3,6 +3,11 @@
     padding-left: 10px;
 }
 
+.header h3 a {
+    color: #fff;
+    text-decoration: none;
+}
+
 .header ul li {
     list-style: none;
     margin: 0;

@@ -9,7 +9,9 @@ import RandomPlanet from '../random-planet';
 import {
   PeoplePage,
   PlanetPage,
-  StarshipsPage
+  StarshipsPage,
+  LoginPage,
+  SecretPage
 } from "../pages";
 
 import StarshipDetails from "../sw-components/starship-details";
@@ -24,8 +26,15 @@ export default class App extends Component {
   state = {
     showRandomPlanet: true,
     swapiService: new SwapiService(),
-    hasError: false
+    hasError: false,
+    isLoggedIn: false
   }
+
+  onLogin = () => {
+    this.setState({
+      isLoggedIn: true
+    });
+  };
 
   onSericeChange = () => {
     this.setState(({swapiService}) => {
@@ -45,7 +54,7 @@ export default class App extends Component {
 
   render() {
 
-    const {showRandomPlanet} = this.state;
+    const {showRandomPlanet, isLoggedIn} = this.state;
 
     const planet = showRandomPlanet ? <RandomPlanet /> : null;
 
@@ -60,10 +69,23 @@ export default class App extends Component {
               {planet}
               <Routes>
                 <Route index element={<h2>Welcome to StarDB</h2>} />
-                <Route path="people" element={<PeoplePage />} />
+                <Route path="people">
+                  <Route index element={<PeoplePage />} />
+                  <Route path=":itemId" element={<PeoplePage />} />
+                </Route>
                 <Route path="planets" element={<PlanetPage />} />
                 <Route path="starships" element={<StarshipsPage />} />
                 <Route path="starships/:itemId" element={<StarshipDetails />} />
+                <Route path="login" element={
+                  <LoginPage
+                    isLoggedIn={isLoggedIn}
+                    onLogin={this.onLogin}
+                  />
+                } />
+                <Route path="secret" element={
+                  <SecretPage isLoggedIn={isLoggedIn} />
+                } />
+                <Route path="*" element={<h2>Page not found</h2>} />
               </Routes>
 
             </div>

@@ -10,8 +10,8 @@ const StarshipsPage = () => {
     <StarshipList
       onItemSelected={(itemId) => {
         navigate(itemId);
-      }
-    } />
+      }}
+    />
   );
 };
 
